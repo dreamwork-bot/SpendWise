@@ -196,26 +196,24 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="e.g., Dinner with friends" {...field} />
+                      <Textarea placeholder="Description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <FormField
                   control={form.control}
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Amount</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           step="0.01"
-                          placeholder="0.00"
+                          placeholder="Amount"
                           {...field}
                         />
                       </FormControl>
@@ -228,7 +226,6 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                   name="date"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -264,43 +261,42 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                     </FormItem>
                   )}
                 />
+                 <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                          setSuggestion(null);
+                        }}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {filteredCategories.map((cat) => (
+                            <SelectItem key={cat.value} value={cat.value}>
+                              <div className="flex items-center gap-2">
+                                <cat.icon className="h-4 w-4" />
+                                {cat.label}
+                              </div>
+                            </SelectItem>
+                          ))}
+                          <Button variant="ghost" className="w-full mt-1 justify-start" onClick={(e) => { e.preventDefault(); setAddCategoryOpen(true)}}>
+                              <PlusCircle className="mr-2 h-4 w-4" /> Add Category
+                            </Button>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select
-                      onValueChange={(value) => {
-                        field.onChange(value)
-                        setSuggestion(null);
-                      }}
-                      value={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {filteredCategories.map((cat) => (
-                          <SelectItem key={cat.value} value={cat.value}>
-                            <div className="flex items-center gap-2">
-                              <cat.icon className="h-4 w-4" />
-                              {cat.label}
-                            </div>
-                          </SelectItem>
-                        ))}
-                         <Button variant="ghost" className="w-full mt-1 justify-start" onClick={(e) => { e.preventDefault(); setAddCategoryOpen(true)}}>
-                            <PlusCircle className="mr-2 h-4 w-4" /> Add Category
-                          </Button>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               {(isSuggesting || suggestion) && transactionType === 'expense' && (
                 <div className="flex items-center gap-2 text-sm">
