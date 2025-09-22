@@ -158,7 +158,7 @@ export function Summary({ transactions }: SummaryProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="weekly">
+        <Tabs defaultValue="daily">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="daily">Daily</TabsTrigger>
             <TabsTrigger value="weekly">Weekly</TabsTrigger>
