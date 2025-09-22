@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -69,10 +69,14 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
     defaultValues: {
       description: "",
       amount: undefined,
-      date: new Date(),
+      date: undefined,
       category: "",
     },
   });
+
+  useEffect(() => {
+    form.setValue('date', new Date());
+  }, [form]);
 
   const description = form.watch("description");
   const debouncedDescription = useDebounce(description, 500);
@@ -105,16 +109,16 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
     }
   }
 
-  useState(() => {
+  useEffect(() => {
     if (debouncedDescription) {
       getSuggestion(debouncedDescription);
     }
-  });
+  }, [debouncedDescription]);
 
 
   const onSubmit = (values: FormValues) => {
     addExpense(values);
-    form.reset();
+    form.reset({ description: '', amount: undefined, date: new Date(), category: '' });
     toast({
       title: "Expense Added",
       description: `Successfully added "${values.description}".`,
