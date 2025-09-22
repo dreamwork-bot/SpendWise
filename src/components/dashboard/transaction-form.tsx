@@ -67,6 +67,12 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [isAddCategoryOpen, setAddCategoryOpen] = useState(false);
   const [customCategories, setCustomCategories] = useState<Category[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   const allCategories = [...defaultCategories, ...customCategories];
 
@@ -77,9 +83,15 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
       amount: undefined,
       category: "",
       type: "expense",
-      date: new Date(),
+      date: undefined,
     },
   });
+
+  useEffect(() => {
+    if (isClient) {
+      form.setValue('date', new Date());
+    }
+  }, [isClient, form]);
 
   const description = form.watch("description");
   const transactionType = form.watch("type");
