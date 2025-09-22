@@ -57,7 +57,7 @@ export function Transactions({ transactions }: TransactionsProps) {
                     <TableRow key={transaction.id}>
                       <TableCell>
                         {Icon && (
-                          <div className="flex items-center justify-center rounded-sm bg-muted p-2">
+                          <div className="flex items-center justify-center rounded-sm bg-muted p-2" style={{ color: category?.color }}>
                             <Icon className="h-5 w-5" />
                           </div>
                         )}
@@ -72,7 +72,7 @@ export function Transactions({ transactions }: TransactionsProps) {
                             : "text-red-500"
                         }`}
                       >
-                        {transaction.type === "income" ? "+$" : "-$"}
+                        {transaction.type === "income" ? "+৳" : "-৳"}
                         {transaction.amount.toLocaleString("en-US", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,

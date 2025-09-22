@@ -5,6 +5,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -34,9 +35,9 @@ type SummaryProps = {
 };
 
 const chartConfig = Object.fromEntries(
-  defaultCategories.map((cat, i) => [
+  defaultCategories.map((cat) => [
     cat.value,
-    { label: cat.label, color: `hsl(var(--chart-${(i % 5) + 1}))` },
+    { label: cat.label, color: cat.color },
   ])
 ) satisfies ChartConfig;
 
@@ -101,7 +102,7 @@ export function Summary({ transactions }: SummaryProps) {
   }) => (
     <div className="space-y-4">
       <div className="text-2xl font-bold">
-        ${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        ৳{total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </div>
       {chartData.length > 0 ? (
         <ChartContainer config={chartConfig} className="h-[200px] w-full min-w-0">
@@ -134,13 +135,9 @@ export function Summary({ transactions }: SummaryProps) {
                 cursor={false}
                 content={<ChartTooltipContent />}
               />
-              <Bar dataKey="amount" layout="vertical" radius={5}>
-                {chartData.map((entry, index) => (
-                  <Bar
-                    key={`cell-${index}`}
-                    dataKey="amount"
-                    fill={chartConfig[entry.category]?.color}
-                  />
+              <Bar dataKey="amount" layout="vertical" radius={5} animationDuration={500}>
+                {chartData.map((entry) => (
+                  <Cell key={`cell-${entry.category}`} fill={chartConfig[entry.category]?.color} />
                 ))}
               </Bar>
             </BarChart>

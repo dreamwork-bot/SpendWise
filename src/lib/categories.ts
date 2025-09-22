@@ -14,15 +14,15 @@ import {
 import type { Category } from "./types";
 
 export const defaultCategories: Category[] = [
-  { value: "food", label: "Food", icon: UtensilsCrossed },
-  { value: "transport", label: "Transport", icon: TrainFront },
-  { value: "entertainment", label: "Entertainment", icon: Popcorn },
-  { value: "housing", label: "Housing", icon: Home },
-  { value: "health", label: "Health", icon: HeartPulse },
-  { value: "shopping", label: "Shopping", icon: ShoppingBag },
-  { value: "bills", label: "Bills", icon: ReceiptText },
-  { value: "salary", label: "Salary", icon: Briefcase },
-  { value: "other", label: "Other", icon: Landmark },
+  { value: "food", label: "Food", icon: UtensilsCrossed, color: "#ef4444" },
+  { value: "transport", label: "Transport", icon: TrainFront, color: "#f97316" },
+  { value: "entertainment", label: "Entertainment", icon: Popcorn, color: "#eab308" },
+  { value: "housing", label: "Housing", icon: Home, color: "#84cc16" },
+  { value: "health", label: "Health", icon: HeartPulse, color: "#22c55e" },
+  { value: "shopping", label: "Shopping", icon: ShoppingBag, color: "#14b8a6" },
+  { value: "bills", label: "Bills", icon: ReceiptText, color: "#3b82f6" },
+  { value: "salary", label: "Salary", icon: Briefcase, color: "#8b5cf6" },
+  { value: "other", label: "Other", icon: Landmark, color: "#64748b" },
 ];
 
 export const iconMap = {

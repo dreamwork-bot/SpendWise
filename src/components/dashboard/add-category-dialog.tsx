@@ -36,6 +36,7 @@ import type { Category } from "@/lib/types";
 const formSchema = z.object({
   label: z.string().min(2, "Category name must be at least 2 characters."),
   icon: z.string().min(1, "Please select an icon."),
+  color: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -56,6 +57,7 @@ export function AddCategoryDialog({
     defaultValues: {
       label: "",
       icon: "",
+      color: "#808080"
     },
   });
 
@@ -64,6 +66,7 @@ export function AddCategoryDialog({
       label: values.label,
       value: values.label.toLowerCase().replace(/\s/g, "-"),
       icon: iconMap[values.icon as IconName] || iconMap.Shapes,
+      color: values.color,
     };
     onAddCategory(newCategory);
     form.reset();
@@ -120,6 +123,19 @@ export function AddCategoryDialog({
                       })}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Color</FormLabel>
+                  <FormControl>
+                    <Input type="color" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

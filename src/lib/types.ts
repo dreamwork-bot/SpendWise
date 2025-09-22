@@ -4,6 +4,7 @@ export type Category = {
   value: string;
   label: string;
   icon: LucideIcon;
+  color?: string;
 };
 
 export type Transaction = {
