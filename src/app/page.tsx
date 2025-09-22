@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TransactionForm } from "@/components/dashboard/transaction-form";
 import { Summary } from "@/components/dashboard/summary";
 import { Transactions } from "@/components/dashboard/transactions";
@@ -15,6 +15,11 @@ import { Eye, EyeOff } from "lucide-react";
 export default function Home() {
   const [transactions, setTransactions] = useState<Transaction[]>(dummyTransactions);
   const [showBalance, setShowBalance] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const addTransaction = (newTransaction: Omit<Transaction, "id">) => {
     setTransactions((prevTransactions) => [
@@ -59,7 +64,7 @@ export default function Home() {
           </Card>
           <Card>
              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Balance</CardTitle>
+              <CardTitle className="text-sm font-medium w-full text-center">Balance</CardTitle>
               <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setShowBalance(!showBalance)}>
                 {showBalance ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </Button>
