@@ -83,7 +83,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
       amount: undefined,
       category: "",
       type: "expense",
-      date: undefined,
+      date: new Date(),
     },
   });
 
@@ -203,7 +203,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                   </FormItem>
                 )}
               />
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <FormField
                   control={form.control}
                   name="amount"
@@ -326,7 +326,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                   )}
                 </div>
               )}
-              <Button type="submit" className="w-full bg-green-700 hover:bg-green-800" disabled={form.formState.isSubmitting}>
+              <Button type="submit" className="w-full bg-green-800 hover:bg-green-900" disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Add Transaction
               </Button>
