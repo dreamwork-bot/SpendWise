@@ -325,7 +325,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                   )}
                 </div>
               )}
-              <Button type="submit" className="w-full bg-[#3D3C3C] text-white hover:bg-[#3D3C3C]/90 font-bold" disabled={form.formState.isSubmitting}>
+              <Button type="submit" className="w-full bg-[#363636] text-white hover:bg-[#363636]/90 font-bold" disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Add Transaction
               </Button>
