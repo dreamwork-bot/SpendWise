@@ -20,8 +20,8 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -326,7 +326,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                   )}
                 </div>
               )}
-              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+              <Button type="submit" className="w-full bg-green-700 hover:bg-green-800" disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Add Transaction
               </Button>
