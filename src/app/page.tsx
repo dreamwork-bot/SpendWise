@@ -57,7 +57,7 @@ export default function Home() {
               </Button>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-lg font-bold text-green-500">
+              <div className="text-base font-bold text-green-500">
                 {showIncome ? `+৳${totalIncome.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '+৳ ****'}
               </div>
             </CardContent>
@@ -70,7 +70,7 @@ export default function Home() {
               </Button>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-lg font-bold text-red-500">
+              <div className="text-base font-bold text-red-500">
                 {showExpenses ? `-৳${totalExpenses.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '-৳ ****'}
               </div>
             </CardContent>
@@ -83,7 +83,7 @@ export default function Home() {
               </Button>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-lg font-bold">
+              <div className="text-base font-bold">
                 {showBalance ? `৳${balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '৳ ****'}
               </div>
             </CardContent>
