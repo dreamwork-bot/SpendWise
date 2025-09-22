@@ -100,7 +100,7 @@ export function Summary({ expenses }: SummaryProps) {
         ${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </div>
       {chartData.length > 0 ? (
-        <ChartContainer config={chartConfig} className="h-[200px] w-full">
+        <ChartContainer config={chartConfig} className="h-[200px] w-full min-w-0">
           <ResponsiveContainer>
             <BarChart data={chartData} layout="vertical" margin={{ left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" horizontal={false} />
@@ -124,6 +124,7 @@ export function Summary({ expenses }: SummaryProps) {
                     </text>
                   </g>
                 )}
+                width={80}
               />
               <ChartTooltip
                 cursor={false}

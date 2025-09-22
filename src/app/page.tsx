@@ -26,7 +26,7 @@ export default function Home() {
           <div className="grid gap-4 lg:col-span-1">
             <ExpenseForm addExpense={addExpense} />
           </div>
-          <div className="grid gap-4 lg:col-span-2">
+          <div className="grid auto-rows-max gap-4 md:gap-8 lg:col-span-2">
             <Summary expenses={expenses} />
             <Transactions expenses={expenses} />
           </div>
