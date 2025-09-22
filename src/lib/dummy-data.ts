@@ -1,12 +1,9 @@
 import type { Transaction } from "./types";
 
-const today = new Date();
-const yesterday = new Date(today);
-yesterday.setDate(yesterday.getDate() - 1);
-const lastWeek = new Date(today);
-lastWeek.setDate(lastWeek.getDate() - 7);
-const lastMonth = new Date(today);
-lastMonth.setMonth(lastMonth.getMonth() - 1);
+const today = new Date("2024-07-29T10:00:00Z");
+const yesterday = new Date("2024-07-28T10:00:00Z");
+const lastWeek = new Date("2024-07-22T10:00:00Z");
+const lastMonth = new Date("2024-06-29T10:00:00Z");
 
 export const dummyTransactions: Transaction[] = [
   {
