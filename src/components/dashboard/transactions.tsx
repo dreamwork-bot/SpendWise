@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -16,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CATEGORIES } from "@/lib/categories";
+import { defaultCategories } from "@/lib/categories";
 import type { Transaction } from "@/lib/types";
 
 type TransactionsProps = {
@@ -25,7 +26,7 @@ type TransactionsProps = {
 
 export function Transactions({ transactions }: TransactionsProps) {
   const getCategory = (value: string) => {
-    return CATEGORIES.find((cat) => cat.value === value);
+    return defaultCategories.find((cat) => cat.value === value);
   };
 
   return (

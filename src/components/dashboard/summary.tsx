@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -26,14 +27,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Transaction } from "@/lib/types";
 import { useMemo } from "react";
 import { endOfDay, endOfMonth, endOfWeek, startOfDay, startOfMonth, startOfWeek } from "date-fns";
-import { CATEGORIES } from "@/lib/categories";
+import { defaultCategories } from "@/lib/categories";
 
 type SummaryProps = {
   transactions: Transaction[];
 };
 
 const chartConfig = Object.fromEntries(
-  CATEGORIES.map((cat, i) => [
+  defaultCategories.map((cat, i) => [
     cat.value,
     { label: cat.label, color: `hsl(var(--chart-${(i % 5) + 1}))` },
   ])
