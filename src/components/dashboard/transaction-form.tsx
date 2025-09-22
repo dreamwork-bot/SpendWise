@@ -78,11 +78,14 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
     defaultValues: {
       description: "",
       amount: undefined,
-      date: new Date(),
       category: "",
       type: "expense",
     },
   });
+
+  useEffect(() => {
+    form.setValue("date", new Date());
+  }, [form]);
 
   const description = form.watch("description");
   const transactionType = form.watch("type");
@@ -343,4 +346,3 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
     </>
   );
 }
-
