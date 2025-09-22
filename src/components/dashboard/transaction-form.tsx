@@ -38,11 +38,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { CATEGORIES } from "@/lib/categories";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/use-debounce";
+import type { Transaction } from "@/lib/types";
 
 const formSchema = z.object({
   description: z.string().min(3, "Description must be at least 3 characters."),
@@ -51,15 +53,16 @@ const formSchema = z.object({
     .positive("Amount must be positive."),
   date: z.date({ required_error: "A date is required." }),
   category: z.string().min(1, "Please select a category."),
+  type: z.enum(["expense", "income"]),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-type ExpenseFormProps = {
-  addExpense: (expense: Omit<FormValues, "id">) => void;
+type TransactionFormProps = {
+  addTransaction: (transaction: Omit<Transaction, "id">) => void;
 };
 
-export function ExpenseForm({ addExpense }: ExpenseFormProps) {
+export function TransactionForm({ addTransaction }: TransactionFormProps) {
   const { toast } = useToast();
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [suggestion, setSuggestion] = useState<string | null>(null);
@@ -69,20 +72,18 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
     defaultValues: {
       description: "",
       amount: undefined,
-      date: undefined,
+      date: new Date(),
       category: "",
+      type: "expense",
     },
   });
 
-  useEffect(() => {
-    form.setValue('date', new Date());
-  }, [form]);
-
   const description = form.watch("description");
+  const transactionType = form.watch("type");
   const debouncedDescription = useDebounce(description, 500);
 
   async function getSuggestion(description: string) {
-    if (description.length < 5) {
+    if (description.length < 5 || transactionType !== "expense") {
       setSuggestion(null);
       return;
     }
@@ -113,29 +114,68 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
     if (debouncedDescription) {
       getSuggestion(debouncedDescription);
     }
-  }, [debouncedDescription]);
+  }, [debouncedDescription, transactionType]);
 
 
   const onSubmit = (values: FormValues) => {
-    addExpense(values);
-    form.reset({ description: '', amount: undefined, date: new Date(), category: '' });
+    addTransaction(values);
+    form.reset({ description: '', amount: undefined, date: new Date(), category: '', type: 'expense' });
     toast({
-      title: "Expense Added",
+      title: "Transaction Added",
       description: `Successfully added "${values.description}".`,
     });
   };
+  
+  const filteredCategories = CATEGORIES.filter(c => {
+    if (transactionType === 'income') {
+      return c.value === 'salary' || c.value === 'other';
+    }
+    return c.value !== 'salary';
+  });
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add Expense</CardTitle>
+        <CardTitle>Add Transaction</CardTitle>
         <CardDescription>
-          Quickly add a new transaction to your records.
+          Add a new income or expense to your records.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        form.setValue('category', '');
+                      }}
+                      defaultValue={field.value}
+                      className="flex space-x-4"
+                    >
+                      <FormItem className="flex items-center space-x-2 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="expense" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Expense</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-2 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="income" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Income</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="description"
@@ -217,8 +257,10 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
                 <FormItem>
                   <FormLabel>Category</FormLabel>
                   <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value)
+                      setSuggestion(null);
+                    }}
                     value={field.value}
                   >
                     <FormControl>
@@ -227,7 +269,7 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {CATEGORIES.map((cat) => (
+                      {filteredCategories.map((cat) => (
                         <SelectItem key={cat.value} value={cat.value}>
                           <div className="flex items-center gap-2">
                             <cat.icon className="h-4 w-4" />
@@ -242,7 +284,7 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
               )}
             />
 
-            {(isSuggesting || suggestion) && (
+            {(isSuggesting || suggestion) && transactionType === 'expense' && (
               <div className="flex items-center gap-2 text-sm">
                 {isSuggesting && <Loader2 className="h-4 w-4 animate-spin" />}
                 {suggestion && !isSuggesting && (
@@ -272,7 +314,7 @@ export function ExpenseForm({ addExpense }: ExpenseFormProps) {
             )}
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Add Expense
+              Add Transaction
             </Button>
           </form>
         </Form>

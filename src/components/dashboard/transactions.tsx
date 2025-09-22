@@ -17,13 +17,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CATEGORIES } from "@/lib/categories";
-import type { Expense } from "@/lib/types";
+import type { Transaction } from "@/lib/types";
 
 type TransactionsProps = {
-  expenses: Expense[];
+  transactions: Transaction[];
 };
 
-export function Transactions({ expenses }: TransactionsProps) {
+export function Transactions({ transactions }: TransactionsProps) {
   const getCategory = (value: string) => {
     return CATEGORIES.find((cat) => cat.value === value);
   };
@@ -33,7 +33,7 @@ export function Transactions({ expenses }: TransactionsProps) {
       <CardHeader>
         <CardTitle>Recent Transactions</CardTitle>
         <CardDescription>
-          A list of your most recent expenses.
+          A list of your most recent income and expenses.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -48,12 +48,12 @@ export function Transactions({ expenses }: TransactionsProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {expenses.length > 0 ? (
-                expenses.map((expense) => {
-                  const category = getCategory(expense.category);
+              {transactions.length > 0 ? (
+                transactions.map((transaction) => {
+                  const category = getCategory(transaction.category);
                   const Icon = category?.icon;
                   return (
-                    <TableRow key={expense.id}>
+                    <TableRow key={transaction.id}>
                       <TableCell>
                         {Icon && (
                           <div className="flex items-center justify-center rounded-sm bg-muted p-2">
@@ -62,17 +62,23 @@ export function Transactions({ expenses }: TransactionsProps) {
                         )}
                       </TableCell>
                       <TableCell className="font-medium">
-                        {expense.description}
+                        {transaction.description}
                       </TableCell>
-                      <TableCell className="text-right">
-                        $
-                        {expense.amount.toLocaleString("en-US", {
+                      <TableCell
+                        className={`text-right font-semibold ${
+                          transaction.type === "income"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {transaction.type === "income" ? "+$" : "-$"}
+                        {transaction.amount.toLocaleString("en-US", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}
                       </TableCell>
                       <TableCell className="text-right">
-                        {expense.date.toLocaleDateString("en-US", {
+                        {transaction.date.toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "short",
                           day: "numeric",

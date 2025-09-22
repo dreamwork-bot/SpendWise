@@ -1,4 +1,5 @@
 import {
+  Briefcase,
   HeartPulse,
   Home,
   Landmark,
@@ -19,5 +20,6 @@ export const CATEGORIES: Category[] = [
   { value: "health", label: "Health", icon: HeartPulse },
   { value: "shopping", label: "Shopping", icon: ShoppingBag },
   { value: "bills", label: "Bills", icon: ReceiptText },
+  { value: "salary", label: "Salary", icon: Briefcase },
   { value: "other", label: "Other", icon: Landmark },
 ];

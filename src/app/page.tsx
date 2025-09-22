@@ -1,34 +1,76 @@
 "use client";
 
 import { useState } from "react";
-import { ExpenseForm } from "@/components/dashboard/expense-form";
+import { TransactionForm } from "@/components/dashboard/transaction-form";
 import { Summary } from "@/components/dashboard/summary";
 import { Transactions } from "@/components/dashboard/transactions";
 import Header from "@/components/layout/header";
-import { dummyExpenses } from "@/lib/dummy-data";
-import type { Expense } from "@/lib/types";
+import { dummyTransactions } from "@/lib/dummy-data";
+import type { Transaction } from "@/lib/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
-  const [expenses, setExpenses] = useState<Expense[]>(dummyExpenses);
+  const [transactions, setTransactions] = useState<Transaction[]>(dummyTransactions);
 
-  const addExpense = (newExpense: Omit<Expense, "id">) => {
-    setExpenses((prevExpenses) => [
-      { ...newExpense, id: crypto.randomUUID() },
-      ...prevExpenses,
+  const addTransaction = (newTransaction: Omit<Transaction, "id">) => {
+    setTransactions((prevTransactions) => [
+      { ...newTransaction, id: crypto.randomUUID() },
+      ...prevTransactions,
     ]);
   };
+
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((acc, t) => acc + t.amount, 0);
+  const totalExpenses = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((acc, t) => acc + t.amount, 0);
+  const balance = totalIncome - totalExpenses;
+
 
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Header />
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 lg:p-8">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Income</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-500">
+                +${totalIncome.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-red-500">
+                -${totalExpenses.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Balance</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                ${balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:grid-cols-3">
           <div className="grid gap-4 lg:col-span-1">
-            <ExpenseForm addExpense={addExpense} />
+            <TransactionForm addTransaction={addTransaction} />
           </div>
           <div className="grid auto-rows-max gap-4 md:gap-8 lg:col-span-2">
-            <Summary expenses={expenses} />
-            <Transactions expenses={expenses} />
+            <Summary transactions={transactions} />
+            <Transactions transactions={transactions} />
           </div>
         </div>
       </main>

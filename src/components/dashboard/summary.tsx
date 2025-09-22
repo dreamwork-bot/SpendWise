@@ -23,13 +23,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Expense } from "@/lib/types";
+import type { Transaction } from "@/lib/types";
 import { useMemo } from "react";
 import { endOfDay, endOfMonth, endOfWeek, startOfDay, startOfMonth, startOfWeek } from "date-fns";
 import { CATEGORIES } from "@/lib/categories";
 
 type SummaryProps = {
-  expenses: Expense[];
+  transactions: Transaction[];
 };
 
 const chartConfig = Object.fromEntries(
@@ -39,7 +39,7 @@ const chartConfig = Object.fromEntries(
   ])
 ) satisfies ChartConfig;
 
-export function Summary({ expenses }: SummaryProps) {
+export function Summary({ transactions }: SummaryProps) {
   const now = new Date();
 
   const timeRanges = {
@@ -59,8 +59,11 @@ export function Summary({ expenses }: SummaryProps) {
 
   const getFilteredData = (period: "daily" | "weekly" | "monthly") => {
     const { start, end } = timeRanges[period];
-    const filteredExpenses = expenses.filter(
-      (expense) => expense.date >= start && expense.date <= end
+    const filteredExpenses = transactions.filter(
+      (transaction) =>
+        transaction.type === "expense" &&
+        transaction.date >= start &&
+        transaction.date <= end
     );
 
     const total = filteredExpenses.reduce(
@@ -84,9 +87,9 @@ export function Summary({ expenses }: SummaryProps) {
     return { total, chartData };
   };
 
-  const dailyData = useMemo(() => getFilteredData("daily"), [expenses]);
-  const weeklyData = useMemo(() => getFilteredData("weekly"), [expenses]);
-  const monthlyData = useMemo(() => getFilteredData("monthly"), [expenses]);
+  const dailyData = useMemo(() => getFilteredData("daily"), [transactions]);
+  const weeklyData = useMemo(() => getFilteredData("weekly"), [transactions]);
+  const monthlyData = useMemo(() => getFilteredData("monthly"), [transactions]);
 
   const SummaryContent = ({
     total,

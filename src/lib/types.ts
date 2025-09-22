@@ -6,10 +6,11 @@ export type Category = {
   icon: LucideIcon;
 };
 
-export type Expense = {
+export type Transaction = {
   id: string;
   description: string;
   amount: number;
   date: Date;
   category: Category["value"];
+  type: "income" | "expense";
 };
