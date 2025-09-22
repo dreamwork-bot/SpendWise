@@ -159,19 +159,19 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                           form.setValue('category', '');
                         }}
                         defaultValue={field.value}
-                        className="flex space-x-4"
+                        className="flex items-center space-x-6"
                       >
-                        <FormItem className="flex items-center space-x-2 space-y-0">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="expense" />
+                            <RadioGroupItem value="expense" className="h-5 w-5" />
                           </FormControl>
-                          <FormLabel className="font-normal">Expense</FormLabel>
+                          <FormLabel className="text-base font-normal">Expense</FormLabel>
                         </FormItem>
-                        <FormItem className="flex items-center space-x-2 space-y-0">
+                        <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
-                            <RadioGroupItem value="income" />
+                            <RadioGroupItem value="income" className="h-5 w-5" />
                           </FormControl>
-                          <FormLabel className="font-normal">Income</FormLabel>
+                          <FormLabel className="text-base font-normal">Income</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
