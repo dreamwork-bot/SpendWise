@@ -14,9 +14,6 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   Form,
@@ -80,12 +77,9 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
       amount: undefined,
       category: "",
       type: "expense",
+      date: new Date(),
     },
   });
-
-  useEffect(() => {
-    form.setValue("date", new Date());
-  }, [form]);
 
   const description = form.watch("description");
   const transactionType = form.watch("type");
@@ -150,13 +144,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle>Add Transaction</CardTitle>
-          <CardDescription>
-            Add a new income or expense to your records.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
