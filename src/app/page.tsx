@@ -9,9 +9,12 @@ import Header from "@/components/layout/header";
 import { dummyTransactions } from "@/lib/dummy-data";
 import type { Transaction } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Home() {
   const [transactions, setTransactions] = useState<Transaction[]>(dummyTransactions);
+  const [showBalance, setShowBalance] = useState(true);
 
   const addTransaction = (newTransaction: Omit<Transaction, "id">) => {
     setTransactions((prevTransactions) => [
@@ -39,7 +42,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium">Total Income</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-[22px] font-bold text-green-500">
+              <div className="text-lg font-bold text-green-500">
                 +৳{totalIncome.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
             </CardContent>
@@ -49,23 +52,26 @@ export default function Home() {
               <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-[22px] font-bold text-red-500">
+              <div className="text-lg font-bold text-red-500">
                 -৳{totalExpenses.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Balance</CardTitle>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setShowBalance(!showBalance)}>
+                {showBalance ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </Button>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-[22px] font-bold">
-                ৳{balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              <div className="text-lg font-bold">
+                {showBalance ? `৳${balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '৳ ****'}
               </div>
             </CardContent>
           </Card>
         </div>
-        <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:grid-cols-3">
+         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:grid-cols-3">
           <div className="grid gap-4 lg:col-span-3">
             <TransactionForm addTransaction={addTransaction} />
           </div>
