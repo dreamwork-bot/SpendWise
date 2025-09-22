@@ -21,7 +21,6 @@ import {
   FormField,
   FormItem,
   FormMessage,
-  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -83,7 +82,7 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
       amount: undefined,
       category: "",
       type: "expense",
-      date: new Date(),
+      date: undefined,
     },
   });
 
@@ -177,13 +176,13 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
                           <FormControl>
                             <RadioGroupItem value="expense" className="h-5 w-5" />
                           </FormControl>
-                          <FormLabel className="text-base font-normal">Expense</FormLabel>
+                          <span className="text-base font-normal">Expense</span>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="income" className="h-5 w-5" />
                           </FormControl>
-                          <FormLabel className="text-base font-normal">Income</FormLabel>
+                          <span className="text-base font-normal">Income</span>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -342,3 +341,5 @@ export function TransactionForm({ addTransaction }: TransactionFormProps) {
     </>
   );
 }
+
+    
