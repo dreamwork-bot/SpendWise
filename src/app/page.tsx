@@ -38,7 +38,7 @@ export default function Home() {
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 lg:p-8">
         <div className="grid grid-cols-3 gap-4">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Income</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
@@ -48,7 +48,7 @@ export default function Home() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
