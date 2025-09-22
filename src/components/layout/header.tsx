@@ -1,4 +1,5 @@
 import { Wallet } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Header() {
   return (
@@ -7,6 +8,9 @@ export default function Header() {
       <h1 className="font-headline text-xl font-bold tracking-tight">
         SpendWise
       </h1>
+      <div className="ml-auto">
+        <ModeToggle />
+      </div>
     </header>
   );
 }
